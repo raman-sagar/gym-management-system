@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GYM Management System - Signup</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Signup</h1>
+      <form id="signupForm">
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <select id="role" required>
+          <option value="">Select Role</option>
+          <option value="member">Member</option>
+          <option value="user">User (Trainer)</option>
+          <option value="admin">admin</option>
+        </select>
+        <button type="submit">Signup</button>
+      </form>
+      <p>Already have an account? <a href="index.html">Login</a></p>
+      <div id="message"></div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
+    <script src="script.js"></script>
+    <script>
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", signupUser);
+    </script>
+  </body>
+</html>

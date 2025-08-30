@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Member Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="message"></div>
+      <h1>Member Dashboard</h1>
+      <button onclick="logoutUser()">Logout</button>
+      <button onclick="loadBills(),loadNotifications()">Refresh</button>
+
+      <h2>Bill Receipts</h2>
+      <div id="billsList"></div>
+      <h2>Notifications</h2>
+      <div id="notificationsList"></div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
+    <script src="script.js"></script>
+    <script>
+      firebase
+        .auth()
+        .onAuthStateChanged(
+          checkAuthAndRole("member", "member_dashboard.html")
+        );
+
+      setTimeout(() => {
+        loadBills();
+        loadNotifications();
+      }, 1000);
+    </script>
+  </body>
+</html>

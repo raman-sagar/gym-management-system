@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User (Trainer) Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>User Dashboard</h1>
+      <div id="message"></div>
+      <button onclick="logoutUser()">Logout</button>
+      <h2>View Details</h2>
+      <div id="membersList"></div>
+      <h2>Search Records</h2>
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Search by Name"
+        oninput="searchMembers()"
+      />
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
+    <script src="script.js"></script>
+    <script>
+      firebase
+        .auth()
+        .onAuthStateChanged(checkAuthAndRole("user", "user_dashboard.html"));
+      uploadMembers("membersList");
+    </script>
+  </body>
+</html>

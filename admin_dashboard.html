@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="message"></div>
+      <h1>Admin Dashboard</h1>
+      <button onclick="logoutUser()">Logout</button>
+      <h2>Members</h2>
+      <div id="membersList"></div>
+      <h2>Add Member</h2>
+
+      <form id="addMemberForm">
+        <input type="text" id="memberName" placeholder="Name" required />
+
+        <input type="email" id="memberEmail" placeholder="Email" required />
+
+        <input
+          type="password"
+          id="memberPassword"
+          placeholder="Password"
+          required
+        />
+        <input type="date" id="joinDate" placeholder="Join Date" required />
+
+        <select id="feePackage" required>
+          <option value="">Fee Package</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+
+        <button type="submit">Add Member</button>
+      </form>
+      ⁡⁢⁢⁣
+      <!--Next Form -->⁡
+      <h2>Create Bill</h2>
+
+      <form id="createBillForm">
+        <select id="billMemberId" required></select>
+
+        <input
+          type="number"
+          id="amount"
+          placeholder="Amount"
+          min="0"
+          required
+        />
+        <input type="date" id="billDate" required />
+        <button type="submit">Create Bill</button>
+      </form>
+      ⁡⁢⁢⁣<!--Next Form -->⁡
+      <h2>Assign Notification</h2>
+
+      <form id="notificationForm">
+        <select id="notifMemberId" required></select>
+
+        <textarea id="notifMessage" placeholder="Message" required></textarea>
+
+        <button type="submit">Send Notification</button>
+      </form>
+
+      <h2>Report Export</h2>
+      <button onclick="exportReport()">Export Members CSV</button>
+      <h2>Supplement Store</h2>
+
+      ⁡⁢⁢⁣<!--Next Form -->⁡
+      <form id="addSupplementForm">
+        <input
+          type="text"
+          id="suppName"
+          placeholder="Supplement Name"
+          required
+        />
+        <input
+          type="number"
+          id="suppPrice"
+          placeholder="Price"
+          min="0"
+          required
+        />
+        <button type="submit">Add Supplement</button>
+      </form>
+
+      <div id="supplementsList"></div>
+      <h2>Diet Details</h2>
+
+      ⁡⁢⁢⁣<!--Next Form -->⁡
+      <form id="addDietForm">
+        <select id="dietMemberId" required></select>
+
+        <textarea id="dietPlan" placeholder="Diet Plan" required></textarea>
+
+        <button type="submit">Assign(Add) Diet</button>
+      </form>
+
+      <div id="dietsList"></div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+      auth.onAuthStateChanged(
+        checkAuthAndRole("admin", "admin_dashboard.html")
+      );
+      document
+        .getElementById("addMemberForm")
+        .addEventListener("submit", addMember);
+      document
+        .getElementById("createBillForm")
+        .addEventListener("submit", createBill);
+      document
+        .getElementById("notificationForm")
+        .addEventListener("submit", assignNotification);
+      document
+        .getElementById("addSupplementForm")
+        .addEventListener("submit", addSupplement);
+      document
+        .getElementById("addDietForm")
+        .addEventListener("submit", addDiet);
+
+      uploadMembers("membersList", true); // true for admin view with edit/delete
+      loadMembersForSelect("billMemberId");
+      loadMembersForSelect("notifMemberId");
+      loadMembersForSelect("dietMemberId");
+      loadSupplements();
+      loadDiets();
+    </script>
+  </body>
+</html>
