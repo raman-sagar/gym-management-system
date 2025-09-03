@@ -447,92 +447,26 @@ async function exportReport() {
   document.body.removeChild(link); // Clean up after download
 }
 
-async function forgetPassword() {
+function forgetPassword() {
   var email = document.getElementById("email").value;
   console.log(email);
   if (!email) {
     showMessage("message", "Please enter your email to reset password.");
     return;
   }
-  try {
-    debugger;
-    let response = await firebase.auth().sendPasswordResetEmail(email);
-    showMessage("message", "Password reset email sent to " + email, false);
-    document.getElementById("email").value = "";
-    return;
-  } catch (error) {
-    console.error("Error sending password reset email:", error);
-    showMessage("message", "Error: " + error.message);
-    return;
-  }
+
+  firebase
+    .auth()
+    .sendPasswordResetEmail(email)
+    .then(() => {
+      showMessage("message", "Password reset email sent to " + email, false);
+      document.getElementById("email").value = "";
+      return;
+    })
+    .catch((error) => {
+      console.error("Error sending password reset email:", error);
+      showMessage("message", "Error: " + error.message);
+      return;
+    });
 }
 
-/*
-System: ## Explanation of the Files
-
- style.css
-- **Purpose**: Provides a clean, modern, and responsive UI for the GYM Management System.
-- **Features**:
-  - Consistent styling for all pages with a white container on a light gray background.
-  - Form elements (inputs, selects, buttons) have a uniform look with padding and rounded borders.
-  - Buttons have hover effects for better interactivity.
-  - The `.list-item` class styles lists of members, bills, notifications, supplements, and diets.
-  - Responsive design adjusts for smaller screens (below 600px).
-  - Colors are professional (blue for buttons, red for errors, green for success messages).
-
-### script.js
-- **Firebase Integration**:
-  - Initializes Firebase with placeholders for your Firebase config (replace with your actual config).
-  - Uses Firebase Authentication for user login/signup and Firestore for data storage (users, bills, notifications, supplements, diets).
-- **Authentication**:
-  - `loginUser`: Handles user login and redirects based on role (admin, member, user).
-  - `signupUser`: Allows members and users (trainers) to sign up; admin signup should be restricted in production.
-  - `logoutUser`: Signs out the user and redirects to the login page.
-- **Role-Based Access**:
-  - `checkAuthAndRole`: Ensures users can only access their designated dashboard (admin, member, user).
-- **Admin Features**:
-  - `addMember`: Adds a new member (with re-login prompt for security).
-  - `updateMember`: Placeholder for editing member details (alert-based; extend with a form for full implementation).
-  - `deleteMember`: Marks members as inactive instead of deleting (soft delete).
-  - `createBill`: Creates a bill for a member with amount and date.
-  - `assignNotification`: Sends a notification to a member.
-  - `addSupplement`: Adds a supplement to the store.
-  - `addDiet`: Assigns a diet plan to a member.
-  - `exportReport`: Exports member data as a CSV file.
-- **Member Features**:
-  - `loadBills`: Displays bill receipts for the logged-in member.
-  - `loadNotifications`: Shows notifications for the logged-in member.
-- **User (Trainer) Features**:
-  - `loadMembers`: Displays member details.
-  - `searchMembers`: Filters members by name (client-side search).
-- **Helper Functions**:
-  - `showMessage`: Displays temporary success/error messages.
-  - `loadMembersForSelect`: Populates member dropdowns for admin forms.
-  - `loadSupplements` and `loadDiets`: Display supplement and diet lists in admin dashboard.
-- **Security Note**: The `addMember` function requires the admin to re-authenticate due to client-side limitations. In production, use Firebase Admin SDK on a server for user creation/deletion.
-
-### Additional Notes
-- **Firebase Config**: Replace the placeholder `firebaseConfig` in `script.js` with your Firebase project's configuration.
-- **Security Considerations**:
-  - Client-side user creation (`addMember`) is a workaround. Use Firebase Admin SDK in production to securely manage users.
-  - Passwords are handled securely by Firebase Authentication, but ensure HTTPS is used.
-- **Report Export**: The `exportReport` function generates a CSV download of member data. Extend it for more complex reports if needed.
-- **Search Functionality**: The `searchMembers` function filters members client-side. For large datasets, consider server-side querying with Firestore.
-- **Project Evaluation Metrics**: Hardcoded in `admin_dashboard.html` as placeholders (Accuracy: 95%, Usability: High). Implement actual metrics (e.g., user feedback, performance stats) in a real project.
-- **Extensibility**: The supplement store and diet details are basic CRUD operations. Enhance with features like inventory tracking or detailed diet plans.
-- **Deployment**: Host on Firebase Hosting or a local server (e.g., using VSCode's Live Server).
-- **Responsive Design**: The CSS ensures usability on mobile devices, but test thoroughly.
-- **Limitations**:
-  - No image handling (e.g., for supplements) due to client-side focus.
-  - No advanced validation (e.g., password strength) beyond basic HTML5 required fields.
-  - Notifications are stored and displayed but not pushed (extend with Firebase Cloud Messaging for real-time notifications).
-
-### How to Run
-1. Replace Firebase config in `script.js`.
-2. Host the files on a server (e.g., Firebase Hosting, or locally with `python -m http.server`).
-3. Create an admin user manually in Firebase Authentication and Firestore (set role to 'admin').
-4. Access `index.html` to start with the login page.
-
-If you need further customization (e.g., specific styling tweaks, additional features like image uploads, or server-side logic), let me know! 
-            
-*/
